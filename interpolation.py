@@ -57,7 +57,7 @@ def interpolate(csv, start, end):
     filtered_y = list(filter(notNull, list_head_coords_y))
    
 
-    print(list(filter(notNull, list_head_coords_x)))
+    #print(list(filter(notNull, list_head_coords_x)))
 
     #interpolates remaining values
     # interpolated_x = interpolate_mid(filtered_x[0], filtered_x[1])
