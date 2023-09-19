@@ -1,0 +1,34 @@
+﻿05252023 98 + 113DeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05252023 98 + 117DeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05252023 114 controlDeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05252023 115 controlDeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05252023 118 controlDeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05252023 119 controlDeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05262023 97 + 117DeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05262023 98 + 114DeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05262023 98 + 118DeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05262023 115 controlDeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05262023 119 controlDeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05272023 98 + 115DeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05272023 98 + 119DeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05272023 113 controlDeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05272023 117 controlDeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05282023 97 + 115DeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05282023 97 + 119DeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05282023 113 controlDeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05282023 117 controlDeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05292023 98 + 113DeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05292023 98 + 117DeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05292023 115 controlDeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05302023 97 + 113DeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05302023 97 + 117DeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05302023 115 controlDeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05302023 119 controlDeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05312023 98 + 115DeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05312023 98 +119DeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05312023 113 controlDeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+05312023 117 controlDeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+06012023 97 + 115DeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+06012023 97 + 119DeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+06012023 113 controlDeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv
+06012023 117 controlDeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv

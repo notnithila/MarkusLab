@@ -1,9 +1,10 @@
 import pandas as pd
 import numpy as np
 import seaborn as sns
+import interpolation as ip
 import matplotlib.pylab as plt
 
-#checks if input is null - returns True if not null
+''' #checks if input is null - returns True if not null
 def notNull(x):
     return (x[1] == x[1])
 
@@ -24,69 +25,15 @@ def interpolate_mid(pair1, pair2):
     for i in range(idx_dist):
         filled.append((first_idx+i, first_val+(step*i)))
 
-    return filled
+    return filled '''
 
 
 
 
 
 def heatmap(csv):
-    data_frame = pd.read_csv('ibns csv/' + csv) #might have to change based on your directory name
 
-    head_coords = data_frame.iloc[2:,13:16].copy() #demo nose x, y, likelihood coords
-    print(head_coords.shape) # 10 frames per second 
-
-    #gets list of column names
-    col_names = list(head_coords.columns)
-
-    #changes the column data types from String to float
-    for i in range(head_coords.shape[1]):
-        head_coords[col_names[i]] =  pd.to_numeric(head_coords[col_names[i]])
-
-    #filter out low likelihoods for the head coordinates
-    for row in range(head_coords.shape[0]):
-        if head_coords.iloc[row,2] < 0.95:
-            head_coords.iloc[row,0] = None
-            head_coords.iloc[row,1] = None
-    
-  #  print(head_coords.head)
-  #  print(head_coords.iloc[:, 0].isna().sum())
-
-    #enumerates the x and y coordinates (makes a list of tuples -> (index, value))
-    list_head_coords_x = enumerate(list(head_coords.iloc[:,0]))
-    list_head_coords_y = enumerate(list(head_coords.iloc[:, 1]))
-
-    #filters out nulls
-    filtered_x = list(filter(notNull, list_head_coords_x))
-    filtered_y = list(filter(notNull, list_head_coords_y))
-   
-
-   # print(list(filter(notNull, list_head_coords)))
-
-    #interpolates remaining values
-    interpolated_x = interpolate_mid(filtered_x[0], filtered_x[1])
-    interpolated_y = interpolate_mid(filtered_y[0], filtered_y[1])
-
-    all_x = []
-    all_y = []
-
-    #interpolates remaining values
-    for i in range(1, len(filtered_x)):
-        interpolated_x = interpolate_mid(filtered_x[i-1], filtered_x[i])
-        interpolated_y = interpolate_mid(filtered_y[i-1], filtered_y[i])
-        all_x.append(interpolated_x)
-        all_y.append(interpolated_y)
-
-    #iterates to get just the values for the x and y coordinates (without the indices)
-    x_col = []
-    for i in all_x:
-        for j in i:
-            x_col.append(j)
-
-    y_col = []
-    for i in all_y:
-        for j in i:
-            y_col.append(j)
+    x_col, y_col = ip.interpolate(csv)
 
     #the frames for the main session - not including the first and last 5 mins (these frame numbers might change)
     main_sesh_x = x_col[3000:6200]
@@ -136,4 +83,4 @@ def heatmap(csv):
     plt.title('Full Trial (Learner Correct) - Teacher') #change this based on what you are generating heatmap for
     plt.show() 
 
-heatmap("05252023 98 + 117DeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv") #change this based on what CSV file you are generating heatmap for
+heatmap("MATLAB/ibns csv/05252023 98 + 117DeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv") #change this based on what CSV file you are generating heatmap for
