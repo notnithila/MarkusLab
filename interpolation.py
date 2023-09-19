@@ -1,9 +1,9 @@
 #interpolation
 import pandas as pd
 
-#checks if input is null - returns True if not null
+#checks if input is null - returns True if not null 
 def notNull(x):
-    return (x[1] == x[1])
+    return (x[1] != None)
 
 #interpolation function - takes in 2 tuples of (index, value) and returns a list of tuples with interpolates values
 def interpolate_mid(pair1, pair2):
@@ -43,23 +43,25 @@ def interpolate(csv, start, end):
             head_coords.iloc[row,0] = None
             head_coords.iloc[row,1] = None
     
-  #  print(head_coords.head)
-  #  print(head_coords.iloc[:, 0].isna().sum())
+    # print(head_coords.head)
+    # print(head_coords.iloc[:, 0].isna().sum())
 
     #enumerates the x and y coordinates (makes a list of tuples -> (index, value))
-    list_head_coords_x = enumerate(list(head_coords.iloc[:,0]))
+    list_head_coords_x = enumerate(list(head_coords.iloc[:, 0]))
     list_head_coords_y = enumerate(list(head_coords.iloc[:, 1]))
+
+    
 
     #filters out nulls
     filtered_x = list(filter(notNull, list_head_coords_x))
     filtered_y = list(filter(notNull, list_head_coords_y))
    
 
-   # print(list(filter(notNull, list_head_coords)))
+    print(list(filter(notNull, list_head_coords_x)))
 
     #interpolates remaining values
-    interpolated_x = interpolate_mid(filtered_x[0], filtered_x[1])
-    interpolated_y = interpolate_mid(filtered_y[0], filtered_y[1])
+    # interpolated_x = interpolate_mid(filtered_x[0], filtered_x[1])
+    # interpolated_y = interpolate_mid(filtered_y[0], filtered_y[1])
 
     all_x = []
     all_y = []
@@ -70,6 +72,8 @@ def interpolate(csv, start, end):
         interpolated_y = interpolate_mid(filtered_y[i-1], filtered_y[i])
         all_x.append(interpolated_x)
         all_y.append(interpolated_y)
+
+
 
     #iterates to get the (index, val) pairs in a list 
     x_col = []
