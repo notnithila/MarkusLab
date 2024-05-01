@@ -25,7 +25,7 @@ def heatmap(csv):
 
     x_col, y_col = ip.interpolate(csv, 10, 13) 
     # change the last two arguments to the columns of the csv you are working with
-    # 10, 13 -> demo
+    # 10, 13 -> teacher nose
 
     # time stamp in seconds for the correct and incorrect trials by left and right
     left_corr = [417] #10, 126, 153, 185, 292, 417
