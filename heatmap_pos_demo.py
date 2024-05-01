@@ -4,46 +4,59 @@ import seaborn as sns
 import interpolation as ip
 import matplotlib.pylab as plt
 
-''' #checks if input is null - returns True if not null
-def notNull(x):
-    return (x[1] == x[1])
 
-#interpolation function - takes in 2 tuples of (index, value) and returns a list of tuples with interpolates values
-def interpolate_mid(pair1, pair2):
-    first_idx = pair1[0]
-    first_val = pair1[1]
-    sec_idx = pair2[0]
-    sec_val = pair2[1]
+# frames for right nosepoke correct trials (flipped)
 
-    dist = sec_val - first_val
-    idx_dist = sec_idx - first_idx
+def flip(tup):
+    temp = []
+    for i, j in tup:
+        new_val = 425 - j
+        temp.append((i, new_val))
 
-    step = dist / idx_dist
+    col = []
+    for k, l in temp:
+        newest_val = 210 + l
+        col.append((k, newest_val))
 
-    filled = []
-
-    for i in range(idx_dist):
-        filled.append((first_idx+i, first_val+(step*i)))
-
-    return filled '''
-
-
-
+    return col
 
 
 def heatmap(csv):
 
-    x_col, y_col = ip.interpolate(csv, 13, 16)
+    x_col, y_col = ip.interpolate(csv, 10, 13) 
+    # change the last two arguments to the columns of the csv you are working with
+    # 10, 13 -> demo
 
-    #the frames for the main session - not including the first and last 5 mins (these frame numbers might change)
-    main_sesh_x = x_col[3000:6200]
-    main_sesh_y = y_col[3000:6200]
+    # time stamp in seconds for the correct and incorrect trials by left and right
+    left_corr = [417] #10, 126, 153, 185, 292, 417
+    right_corr = [429] #38, 253, 406, 429
+    left_incorr = [452] #21, 194, 327, 452
+    right_incorr = [476] #105, 135, 207, 301, 439, 476
+
+
+    main_sesh_x = []
+    main_sesh_y = []
+
+    # use this for left nosepoke trials
+    # for i in range(len(left_corr)):
+    #     frame = left_corr[i]*15
+    #     main_sesh_x += x_col[frame:frame+15]
+    #     main_sesh_y += y_col[frame:frame+15]
+    
+
+    # use this for right nosepoke trials
+    for i in range(len(right_corr)):
+         frame = right_corr[i]*15
+         main_sesh_x += flip(x_col[frame:frame+5])
+         main_sesh_y += y_col[frame:frame+5] 
+
+
 
     #the corner coordinates of the box on DLC
-    xmin = 1000
-    xmax = 1880
-    ymin = 85
-    ymax = 1110
+    xmin = 170
+    xmax = 460
+    ymin = 0
+    ymax = 190
 
     xmin_ = xmin
     ymin_ = ymin
@@ -79,8 +92,8 @@ def heatmap(csv):
         ymax_ = 0
 
 
-    sns.heatmap(freq, xticklabels=False, yticklabels=False, cmap='plasma', cbar=True, vmin=0, vmax=50)
-    plt.title('Full Trial (Learner Correct) - Teacher') #change this based on what you are generating heatmap for
+    sns.heatmap(freq, xticklabels=False, yticklabels=False, cmap='plasma', cbar=True, vmin=0, vmax=3)
+    plt.title('Teacher Correct Learner Correct 10') #change this based on what you are generating heatmap for
     plt.show() 
 
-heatmap("MATLAB/ibns csv/05252023 98 + 117DeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv") #change this based on what CSV file you are generating heatmap for
+heatmap("MATLAB/971_3.3.2020_Rat+SALDeepCut_resnet50_Operant_V2May20shuffle1_960000.csv") #change this based on what CSV file you are generating heatmap for

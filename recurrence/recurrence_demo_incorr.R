@@ -17,27 +17,77 @@ setwd('./Downloads')
 # read in the data
 data = read.csv('./971_3.3.2020_Rat+SALDeepCut_resnet50_Operant_V2May20shuffle1_960000.csv')
 
-incorrect = list(17, 101, 131, 190, 203, 297, 325, 435, 448, 472, 555, 579, 696, 710, 729, 741, 782) #807, 878)
+incorrect = list(21, 105, 135, 194, 207, 297, 301, 327, 439, 452, 476)
+
+subset <- data[, 2:4] # 11:13 demo - 2:4 obs
+
+subset[subset[, 3] < 0.97, 1:2] <- NA
+
+missing_indices <- which(is.na(subset[, 1]))
+non_missing_indices <- which(!is.na(subset[, 1]))
+
+ratio = length(missing_indices) / length(subset[, 1])
+
+interpolated_values_1 <- approx(
+  x = non_missing_indices,
+  y = subset[, 1][non_missing_indices],
+  xout = missing_indices
+)$y
+
+interpolated_values_2 <- approx(
+  x = non_missing_indices,
+  y = subset[, 2][non_missing_indices],
+  xout = missing_indices
+)$y
+
+subset[, 1][missing_indices] <- interpolated_values_1
+subset[, 2][missing_indices] <- interpolated_values_2
+
 
 demo_nose_x <- numeric()
 demo_nose_y <- numeric()
 
+
 for (i in 1:length(incorrect)) {
   frame <- incorrect[[i]] * 15
-  frames_x <- as.numeric(data[frame:(frame + 59), 14])  # Extract the corresponding frames
-  frames_y <- as.numeric(data[frame:(frame + 59), 15])
+  frames_x <- as.numeric(subset[frame:(frame + 59), 1])  # Extract the corresponding frames
+  frames_y <- as.numeric(subset[frame:(frame + 59), 2])
   demo_nose_x <- c(demo_nose_x, as.numeric(unlist(frames_x)))  # Append the frames to the correct_frames vector
   demo_nose_y <- c(demo_nose_y, as.numeric(unlist(frames_y)))
   
 }
+
+subset <- data[, 20:22]
+
+subset[subset[, 3] < 0.97, 1:2] <- NA
+
+missing_indices <- which(is.na(subset[, 1]))
+non_missing_indices <- which(!is.na(subset[, 1]))
+
+ratio = length(missing_indices) / length(subset[, 1])
+
+interpolated_values_1 <- approx(
+  x = non_missing_indices,
+  y = subset[, 1][non_missing_indices],
+  xout = missing_indices
+)$y
+
+interpolated_values_2 <- approx(
+  x = non_missing_indices,
+  y = subset[, 2][non_missing_indices],
+  xout = missing_indices
+)$y
+
+subset[, 1][missing_indices] <- interpolated_values_1
+subset[, 2][missing_indices] <- interpolated_values_2
 
 light_x <- numeric()
 light_y <- numeric()
 
 for (i in 1:length(incorrect)) {
   frame <- incorrect[[i]] * 15
-  frames_x <- as.numeric(data[frame:(frame + 59), 23])  # Extract the corresponding frames
-  frames_y <- as.numeric(data[frame:(frame + 59), 24])
+  frames_x <- as.numeric(subset[frame:(frame + 59), 1])  # Extract the corresponding frames
+  frames_y <- as.numeric(subset[frame:(frame + 59), 2])
   light_x <- c(light_x, as.numeric(unlist(frames_x)))  # Append the frames to the correct_frames list
   light_y <- c(light_y, as.numeric(unlist(frames_y)))
 }
@@ -54,13 +104,13 @@ for (i in 1:length(incorrect)) {
 #calculates the squared distance from the demo's nose to the light's x coordinate and stores in dist_x
 dist_x <- vector("numeric", length = length(demo_nose_x))
 for (i in seq_along(demo_nose_x)) {
-  dist_x[i] <- (demo_nose_x[i] - light_x[i])**2
+  dist_x[i] <- (demo_nose_x[i] - 315)**2
 }
 
 #calculates the squared distance from the demo's nose to the light's y coordinate and stores in dist_y
 dist_y <- vector("numeric", length = length(demo_nose_y))
 for (i in seq_along(demo_nose_y)) {
-  dist_y[i] <- (demo_nose_y[i] - light_y[i])**2
+  dist_y[i] <- (demo_nose_y[i] - 315)**2
 }
 
 #### 2. Plotting your data ####
@@ -90,7 +140,7 @@ rec_ami = mutual(dist_x,
 plot(rec_ami)
 
 # select your delay from the AMI data
-rec_chosen_delay = 15 #first local minimum, finding first iteration
+rec_chosen_delay = 30 #first local minimum, finding first iteration
 rec_remaining_mutual_info = rec_ami[rec_chosen_delay + 1] #y value
 
 ######## 3c. Determine embedding parameter ########
@@ -108,7 +158,7 @@ rec_fnn = false.nearest(dist_x,
 plot(rec_fnn)
 
 # select your embedding dimension from the FNN data
-rec_chosen_embedding = 9 #pick lowest point
+rec_chosen_embedding = 2 #pick lowest point
 rec_remaining_fnn = rec_fnn[,rec_chosen_embedding]
 
 ######## 3d. Select radius and run CRQA ########
@@ -125,7 +175,7 @@ rec_analysis = crqa(ts1 = rescaled_dist_x,
                     ts2 = rescaled_dist_x,
                     delay = rec_chosen_delay, 
                     embed = rec_chosen_embedding, 
-                    r = 2.3, # you can keep playing with this to find something that works
+                    r = 0.5, # you can keep playing with this to find something that works
                     normalize = 0, 
                     rescale = 0, # distance matrix rescaling option -- see documentation
                     mindiagline = 2,

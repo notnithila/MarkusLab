@@ -3,7 +3,7 @@ import pandas as pd
 
 #checks if input is null - returns True if not null 
 def notNull(x):
-    return (x[1] != None)
+    return (x[1] == x[1]) 
 
 #interpolation function - takes in 2 tuples of (index, value) and returns a list of tuples with interpolates values
 def interpolate_mid(pair1, pair2):
@@ -15,12 +15,22 @@ def interpolate_mid(pair1, pair2):
     dist = sec_val - first_val
     idx_dist = sec_idx - first_idx
 
-    step = dist / idx_dist
-
     filled = []
 
-    for i in range(idx_dist):
-        filled.append((first_idx+i, first_val+(step*i)))
+    
+
+
+    if idx_dist <= 5:
+    
+        step = dist / idx_dist
+
+        for i in range(idx_dist):
+            filled.append((first_idx+i, first_val+(step*i)))
+    
+    else:
+        for i in range(idx_dist):
+            filled.append((first_idx+i, 0))
+
 
     return filled
 
