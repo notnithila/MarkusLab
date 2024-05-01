@@ -1,94 +1,54 @@
-import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pylab as plt
 import interpolation as ip
 
-# #checks if input is null - returns True if not null
-# def notNull(x):
-#     return (x[1] != None)
 
-# #interpolation function - takes in 2 tuples of (index, value) and returns a list of tuples with interpolates values
-# def interpolate_mid(pair1, pair2):
-#     first_idx = pair1[0]
-#     first_val = pair1[1]
-#     sec_idx = pair2[0]
-#     sec_val = pair2[1]
+# frames for right nosepoke correct trials (flipped)
 
-#     dist = sec_val - first_val
-#     idx_dist = sec_idx - first_idx
+def flip(tup):
+    temp = []
+    for i, j in tup:
+        new_val = 425 - j
+        temp.append((i, new_val))
 
-#     step = dist / idx_dist
+    col = []
+    for k, l in temp:
+        newest_val = 210 + l
+        col.append((k, newest_val))
 
-#     filled = []
+    return col
 
-#     for i in range(idx_dist):
-#         filled.append((first_idx+i, first_val+(step*i)))
-
-#     return filled
-
-
-# def heatmap(csv):
-#     data_frame = pd.read_csv('ibns csv/' + csv) #might have to change based on your directory name
-
-
-#     head_coords = data_frame.iloc[2:,1:4].copy() #obs nose x, y, likelihood coords
-#     print(head_coords.shape) # 10 frames per second 
-
-#     #gets list of column names
-#     col_names = list(head_coords.columns)
-
-#     #filter out low likelihoods for the head coordinates
-#     for i in range(head_coords.shape[1]):
-#         head_coords[col_names[i]] =  pd.to_numeric(head_coords[col_names[i]])
-
-
-#     #filter out low likelihoods for the head coordinates
-#     for row in range(head_coords.shape[0]):
-#         if head_coords.iloc[row,2] < 0.95:
-#             head_coords.iloc[row,0] = None
-#             head_coords.iloc[row,1] = None
-
-#     #enumerates the x and y coordinates (makes a list of tuples -> (index, value))
-#     list_head_coords_x = enumerate(list(head_coords.iloc[:, 0]))
-#     list_head_coords_y = enumerate(list(head_coords.iloc[:, 1]))
-
-#     #filters out nulls
-#     filtered_x = list(filter(notNull, list_head_coords_x))
-#     filtered_y = list(filter(notNull, list_head_coords_y))
-   
-
-#    # print(list(filter(notNull, list_head_coords)))
-
-#     #interpolates remaining values
-#     interpolated_x = interpolate_mid(filtered_x[0], filtered_x[1])
-#     interpolated_y = interpolate_mid(filtered_y[0], filtered_y[1])
-
-#     all_x = []
-#     all_y = []
-#     #interpolates remaining values
-#     for i in range(1, len(filtered_x)):
-#         interpolated_x = interpolate_mid(filtered_x[i-1], filtered_x[i])
-#         interpolated_y = interpolate_mid(filtered_y[i-1], filtered_y[i])
-#         all_x.append(interpolated_x)
-#         all_y.append(interpolated_y)
-
-#     #iterates to get just the values for the x and y coordinates (without the indices)
-#     x_col = []
-#     for i in all_x:
-#         for j in i:
-#             x_col.append(j)
-
-#     y_col = []
-#     for i in all_y:
-#         for j in i:
-#             y_col.append(j)
 def heatmap(csv):
     
     x_col, y_col = ip.interpolate(csv, 1, 4)
-    #the frames for the main session - not including the first and last 5 mins (these frame numbers might change)
-    main_sesh_x = x_col[3000:6200]
-    main_sesh_y = y_col[3000:6200]
+    # change the last two arguments to the columns of the csv you are working with
+    # 1, 14 -> learner nose
+
+    main_sesh_x = []
+    main_sesh_y = []
+
+    # time stamp in seconds for the correct and incorrect trials by left and right
+    left_corr = [417] #10, 126, 153, 185, 292, 417
+    right_corr = [429] #38, 253, 406, 429
+    left_incorr = [452] #21, 194, 327, 452
+    right_incorr = [476] #105, 135, 207, 301, 439, 476
+
+
+    # use this for left nosepoke trials
+    # for i in range(len(left_corr)):
+    #     frame = left_corr[i]*15
+    #     main_sesh_x += x_col[frame:frame+15]
+    #     main_sesh_y += y_col[frame:frame+15]
+    
+
+    # use this for right nosepoke trials
+    for i in range(len(right_corr)):
+         frame = right_corr[i]*15
+         main_sesh_x += flip(x_col[frame:frame+5])
+         main_sesh_y += y_col[frame:frame+5] 
+
+
 
     #the corner coordinates of the box on DLC
     xmin = 90
@@ -136,4 +96,3 @@ def heatmap(csv):
     plt.show() 
 
 heatmap("MATLAB/ibns csv/05252023 98 + 117DeepCut_resnet50_IBNS Social AERIALJun10shuffle1_255000.csv") #change this based on what CSV file you are generating heatmap for
-
