@@ -3,7 +3,7 @@ import numpy as np
 import seaborn as sns
 import interpolation as ip
 import matplotlib.pylab as plt
-
+import math
 
 # frames for right nosepoke correct trials (flipped)
 
@@ -20,10 +20,16 @@ def flip(tup):
 
     return col
 
+def calculate_distance(x, y, target_x=315, target_y=315):
+    distances = []
+    for i in range(len(x)):
+        distance = math.sqrt((x[i][1] - target_x)**2 + (y[i][1] - target_y)**2)
+        distances.append(distance)
+    return distances
 
 def heatmap(csv):
 
-    x_col, y_col = ip.interpolate(csv, 10, 13) 
+    x_col, y_col = ip.interpolate(csv, 1, 4) 
     # change the last two arguments to the columns of the csv you are working with
     # 10, 13 -> teacher nose
 
@@ -33,30 +39,40 @@ def heatmap(csv):
     left_incorr = [452] #21, 194, 327, 452
     right_incorr = [476] #105, 135, 207, 301, 439, 476
 
+    correct = [10, 38, 126, 153, 185, 253, 292, 406, 417, 429]
+    incorrect = [21, 105, 135, 194, 207, 301, 327, 439, 452, 476]
 
     main_sesh_x = []
     main_sesh_y = []
 
     # use this for left nosepoke trials
-    # for i in range(len(left_corr)):
-    #     frame = left_corr[i]*15
-    #     main_sesh_x += x_col[frame:frame+15]
-    #     main_sesh_y += y_col[frame:frame+15]
+    # for i in range(len(left_incorr)):
+    #     frame = left_incorr[i]*15
+    #     main_sesh_x += x_col[frame:frame+60]
+    #     main_sesh_y += y_col[frame:frame+60]
     
 
     # use this for right nosepoke trials
-    for i in range(len(right_corr)):
-         frame = right_corr[i]*15
-         main_sesh_x += flip(x_col[frame:frame+5])
-         main_sesh_y += y_col[frame:frame+5] 
+    for i in range(len(right_incorr)):
+         frame = right_incorr[i]*15
+         main_sesh_x += flip(x_col[frame:frame+60])
+         main_sesh_y += y_col[frame:frame+60] 
 
+    # dist_x = calculate_distance(main_sesh_x, main_sesh_y)
+    # time_points = [i * 15 for i in range(len(dist_x))] 
 
+    # plt.plot(time_points, dist_x)
+    # plt.xlabel('Time')
+    # plt.ylabel('Squared Distance (dist_x)')
+    # plt.title('Squared Distance (dist_x) over Time')
+    # plt.grid(True)
+    # plt.show()
 
     #the corner coordinates of the box on DLC
-    xmin = 170
-    xmax = 460
-    ymin = 0
-    ymax = 190
+    xmin = 200
+    xmax = 440
+    ymin = 190
+    ymax = 360
 
     xmin_ = xmin
     ymin_ = ymin
@@ -93,7 +109,7 @@ def heatmap(csv):
 
 
     sns.heatmap(freq, xticklabels=False, yticklabels=False, cmap='plasma', cbar=True, vmin=0, vmax=3)
-    plt.title('Teacher Correct Learner Correct 10') #change this based on what you are generating heatmap for
+    plt.title('Teacher Correct Learner Incorrect 4') #change this based on what you are generating heatmap for
     plt.show() 
 
-heatmap("MATLAB/971_3.3.2020_Rat+SALDeepCut_resnet50_Operant_V2May20shuffle1_960000.csv") #change this based on what CSV file you are generating heatmap for
+heatmap("~/Downloads/971_3.3.2020_Rat+SALDeepCut_resnet50_Operant_V2May20shuffle1_960000.csv") #change this based on what CSV file you are generating heatmap for

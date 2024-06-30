@@ -160,7 +160,7 @@ rec_analysis = crqa(ts1 = rescaled_dist_x,
                     ts2 = rescaled_dist_x,
                     delay = rec_chosen_delay, 
                     embed = rec_chosen_embedding, 
-                    r = 0.05, # you can keep playing with this to find something that works
+                    r = 0.4, # you can keep playing with this to find something that works
                     normalize = 0, 
                     rescale = 0, # distance matrix rescaling option -- see documentation
                     mindiagline = 2,
