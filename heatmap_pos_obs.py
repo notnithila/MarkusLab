@@ -23,30 +23,32 @@ def heatmap(csv):
     
     x_col, y_col = ip.interpolate(csv, 1, 4)
     # change the last two arguments to the columns of the csv you are working with
-    # 1, 14 -> learner nose
+    # 1, 4 -> learner nose
 
+    print("x:", x_col)
     main_sesh_x = []
     main_sesh_y = []
 
     # time stamp in seconds for the correct and incorrect trials by left and right
     left_corr = [417] #10, 126, 153, 185, 292, 417
     right_corr = [429] #38, 253, 406, 429
-    left_incorr = [452] #21, 194, 327, 452
+    left_incorr = [21] #21, 194, 327, 452
     right_incorr = [476] #105, 135, 207, 301, 439, 476
 
 
     # use this for left nosepoke trials
-    # for i in range(len(left_corr)):
-    #     frame = left_corr[i]*15
-    #     main_sesh_x += x_col[frame:frame+15]
-    #     main_sesh_y += y_col[frame:frame+15]
+    for i in range(len(left_corr)):
+        frame = left_corr[i]*15
+        main_sesh_x += x_col[frame:frame+60]
+        main_sesh_y += y_col[frame:frame+60]
     
+    print(main_sesh_x)
 
     # use this for right nosepoke trials
-    for i in range(len(right_corr)):
-         frame = right_corr[i]*15
-         main_sesh_x += flip(x_col[frame:frame+5])
-         main_sesh_y += y_col[frame:frame+5] 
+    # for i in range(len(right_corr)):
+    #      frame = right_corr[i]*15
+    #      main_sesh_x += flip(x_col[frame:frame+5])
+    #      main_sesh_y += y_col[frame:frame+5] 
 
 
 
